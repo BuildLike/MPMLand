@@ -17,6 +17,7 @@ use pocketmine\level\generator\Generator;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\event\block\{BlockPlaceEvent, BlockBreakEvent};
 use pocketmine\event\entity\EntitySpawnEvent;
+use pocketmine\level\generator\hell\Nether;
 
 use mpm\IsLandGenerator as LandGenerator;
 use mpm\FieldGenerator;
@@ -98,7 +99,7 @@ class IsLandMain extends PluginBase implements Listener{
         $forceResources->setAccessible(true);
         $forceResources->setValue($this->getServer()->getResourceManager(), true);
         echo str_repeat("\010", strlen("⚪ Applying resource pack... ")) . TextFormat::toANSI("§a✔️ 리소스팩 로드완료    \n");
-    
+
     if($this->s['island']['make']){
 		Generator::addGenerator(LandGenerator::class, "island");
 		$gener = Generator::getGenerator("island");
@@ -111,6 +112,17 @@ class IsLandMain extends PluginBase implements Listener{
 		}
 		$this->getLogger()->info("섬 로드 완료.");
   }
+  Generator::addGenerator(Nether::class, "island");
+  $gener = Generator::getGenerator("nether");
+
+  if(!($this->getServer()->loadLevel("nether"))){
+    @mkdir($this->getServer()->getDataPath() . "/" . "worlds" . "/" . "nether");
+    $options = [];
+    $this->getServer()->generateLevel("nether", 0, $gener, $options);
+    $this->getLogger()->info("지옥 생성 완료.");
+  }
+  $this->getLogger()->info("지옥 로드 완료.");
+
   if($this->s['field']['make']){
     Generator::addGenerator(FieldGenerator::class, "field");
     $gener = Generator::getGenerator("field");

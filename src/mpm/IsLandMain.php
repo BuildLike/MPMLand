@@ -154,7 +154,7 @@ class IsLandMain extends PluginBase implements Listener{
         case 'field': $nname = "땅"; break;
         default: $nname = false;
       }
-      if(! isset(array_shift($args))){
+      if(! isset($args[0])){
         $type = false;
       }else{
       switch(array_shift($args)){

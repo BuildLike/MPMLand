@@ -37,9 +37,9 @@ class MPMLand extends PluginBase implements Listener{
       public function onLoad(){
         @mkdir($this->getDataFolder());
           $this->c = new Config($this->getDataFolder().'data.json', Config::JSON, [
-              'island' => [],
-              'skyland' => [],
-              'land' => [],
+              'Island' => [],
+              'Skyland' => [],
+              'Land' => [],
           ]);
           $this->c = $this->c->getAll();
     }
@@ -104,30 +104,96 @@ class MPMLand extends PluginBase implements Listener{
                 $pl->sendMessage($pr."돈이 부족합니다. ".$type." 가격 : 20000won");
                 return true;
               }
+              if(! isset($args[0])){$pl->sendMessage($pr."/땅구매 [타입] (번호[기본값 : 남은 섬중 제일 낮은 섬의 번호])"); return true;}
+              if(! isset($this->c[$args[0]])){$pl->sendMessage($pr." 타입종류 : Island, Skyland, Field"); return true;}
+              $a = [];
+              foreach($this->c[$args[0]] as $id => $data){
+                if(isset($data)) continue;
+                array_push($a, $id);
+                if(count($a) >= 10) break;
+              }
+              $d = [];
+              foreach($this->c[$args[0]] as $id => $data){
+                if(! isset($data) or $data['owner'] !== $pl->getName()) continue;
+                array_push($d, $id);
+                if(count($d) >= 3){$pl->sendMessage($pr."섬 개수가 일정 제한을 넘었습니다."); return true;}
+              }
+              $num = (! isset($args[0]))? $a[0] : $args[1];
+              if(isset($this->c[$args[0]] [$args[1]] ['owner'])){$pl->sendMessage($pr."이미 섬 주인이 있습니다.."); return true;}
+              switch($args[0]){
+                case 'Island': $class = new IsLand($num, $pl->getName(), new Vector3(103 + $num * 200, 12, 297));
+                case 'SkyLand': $class = new SkyLand($num, $pl->getName(), new Vector3(103 + $num * 200, 12, 297));
+                case 'Field': $class = new Field($num, $pl->getName());
+              }
               //$this->getServer()->getPluginManager()->callEvent();
              break;
            case '땅양도':
              if(! isset($args[0])){$pl->sendMessage($pr."/땅양도 [플레이어]"); return true;}
+             if(! isset($this->c[$pl->getLevel()->getName()]])){$pl->sendMessage($pr."당신은 섬, 하늘섬, 평지중 한 월드에 있어야 합니다."); return true;}
+             $a = 0;
+             switch($pl->getLevel()->getName()){
+               case 'Island': $cl = 200;
+               case 'SkyLand': $cl = 200;
+               case 'Field': $cl = 30;
+             }
+             foreach($this->c[$pl->getLevel()->getName()] as $id => $data){
+               if(! isset($data) or $pl->distance(new Vector3(103 + $id * 200, 12, 297)) >= $cl) continue;
+               $a = $id; break;
+             }
+             switch($pl->getLevel()->getName()){
+               case 'Island': $class = Island::getId($a);
+               case 'SkyLand': $class = Skyland::getId($a);
+               case 'Field': $class = Field::getId($a);
+             }
+             if($class !== null or $class->getOwner() !== $pl->getName()){$pl->sendMessage($pr."당신의 땅에서만 가능한 작업입니다."); return true;}
+             $d = [];
+             foreach($this->c[$pl->getLevel()->getName()] as $id => $data){
+               if(! isset($data) or $data['owner'] !== $args[0]) continue;
+               array_push($d, $id);
+               if(count($d) >= 3){$pl->sendMessage($pr."플레이어의 섬 개수가 일정 제한을 넘었습니다."); return true;}
+             }
+             $class->setOwner($args[0]);
             break;
            case '땅이동':
-           if(! $nname){
-             $pl->sendMessage($pr." 타입종류 : 하늘섬, 수중섬, 땅"); return true;
-           }
-             if(! isset($args[0])){$pl->sendMessage($pr."/땅이동 [타입] [번호]"); return true;}
+             if(! isset($args[0]) or ! isset($args[1])){$pl->sendMessage($pr."/땅이동 [타입] [번호]"); return true;}
+             if(! isset($this->c[$args[0]])){$pl->sendMessage($pr." 타입종류 : Island, Skyland, Field"); return true;}
+             $a = $args[0];
+             switch($args[1]){
+               case 'Island': $class = Island::getId($a);
+               case 'SkyLand': $class = Skyland::getId($a);
+               case 'Field': $class = Field::getId($a);
+             }
+             $pl->teleport($class->getPos());
+             //$this->getServer()->getPluginManager()->callEvent();
             break;
            case '땅공유':
-           if(! isset($args[0])){$pl->sendMessage($pr."/땅양도 [플레이어]"); return true;}
-          break;
-           case '땅공유해제':
-           if(! isset($args[0])){$pl->sendMessage($pr."/땅양도 [플레이어]"); return true;}
+           if(! isset($args[0])){$pl->sendMessage($pr."/땅공유 [플레이어]"); return true;}
+           if(! isset($this->c[$pl->getLevel()->getName()]])){$pl->sendMessage($pr."당신은 섬, 하늘섬, 평지중 한 월드에 있어야 합니다."); return true;}
+           $a = 0;
+           switch($pl->getLevel()->getName()){
+             case 'Island': $cl = 200;
+             case 'SkyLand': $cl = 200;
+             case 'Field': $cl = 30;
+           }
+           foreach($this->c[$pl->getLevel()->getName()] as $id => $data){
+             if(! isset($data) or $pl->distance(new Vector3(103 + $id * 200, 12, 297)) >= $cl) continue;
+             $a = $id; break;
+           }
+           switch($pl->getLevel()->getName()){
+             case 'Island': $class = Island::getId($a);
+             case 'SkyLand': $class = Skyland::getId($a);
+             case 'Field': $class = Field::getId($a);
+           }
+           if($class !== null or $class->getOwner() !== $pl->getName()){$pl->sendMessage($pr."당신의 땅에서만 가능한 작업입니다."); return true;}
+           if(isset($class->getShares()[$args[0]])){$class->outShare($args[0]);}else{$class->addShare($args[0]);}
           break;
            case '땅':
-             $pl->sendMessage($pr." /땅구매 [타입] §o§8- [타입]을 구매합니다.");
+             $pl->sendMessage($pr." /땅구매 [타입] (번호[기본값 : 남은 섬중 제일 낮은 섬의 번호]) §o§8- [타입]에 있는 [번호]를 구매합니다.");
              $pl->sendMessage($pr." /땅양도 [플레이어] §o§8- 땅을 [플레이어] 에게 양도합니다.");
              $pl->sendMessage($pr." /땅이동 [타입] [번호] §o§8- [타입]의 [번호]으로 갑니다.");
-             $pl->sendMessage($pr." /땅공유 [플레이어] §o§8- 이땅을 [플레이어]에게 공유 시킵니다.");
-             $pl->sendMessage($pr." /땅공유해제 [플레이어] §o§8- 이땅 공유자인 [플레이어]를 섬에서 공유해제시킵니다.");
-             $pl->sendMessage($pr." 타입종류 : 하늘섬, 수중섬, 땅");
+             $pl->sendMessage($pr." /땅공유 [플레이어] §o§8- 이땅을 [플레이어]에게 공유/공유해제 시킵니다.");
+             $pl->sendMessage($pr." /땅목록 (개수[기본값 : 10])§o§8- 남은 섬 중 [개수]만큼을 구합니다.");
+             $pl->sendMessage($pr." 타입종류 : Island, Skyland, Field");
             break;
     }return true;
 }
@@ -138,6 +204,14 @@ public function setConfig($id, $type, array $data){
 }
 public function getConfig($id, $type) : array{
   return $this->c[$id];
+}
+public function getLands($name, $type) : array{
+   $a = [];
+   foreach($this->c as $id => $data){
+     if($data['owner'] !== $name) continue;
+     array_push($a, $id);
+   }
+   return $a;
 }
 
     /**EventListning Point*/

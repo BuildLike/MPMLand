@@ -7,21 +7,32 @@ class IsLand extends MPMLand implements Land{
 
   private $c;
   public function __construct($id, $owner, Vector3 $vec, $shares = []){
-    $this->setConfig($id,'land', [
+    $this->setConfig($id,'Field', [
       'owner' => $owner,
       'pos' => [$vec->x, $vec->y, $vec->z],
       'shares' => $shares,
       'option' => []
     ]);
     $this->id = $id;
-    $this->c = $this->getConfig($id, 'land');
+    $this->c = $this->getConfig($id, 'Field');
   }
 
   public static function getId($id){
     if($this->getConfig($id) !== null) return false;
     $this->id = $id;
-    $this->c = $this->getConfig($id, 'land');
+    $this->c = $this->getConfig($id, 'Field');
     return true;
+  }
+
+  public static function setId($id, Vector3 $vec){
+    $this->setConfig($id,'Field', [
+    //  'owner' => $owner,
+      'pos' => [$vec->x, $vec->y, $vec->z],
+    //  'shares' => $shares,
+      'option' => []
+    ]);
+    $this->id = $id;
+    $this->c = $this->getConfig($id, 'Field');
   }
 
   final public function setConfig(){

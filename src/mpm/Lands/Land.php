@@ -8,7 +8,6 @@ interface Land{
 
   public function __construct($id, $owner, Vector3 $vec, $shares = []);
 
-
   public function getOwnerName(); //return Ownername
 
   public function setOwner($owner);

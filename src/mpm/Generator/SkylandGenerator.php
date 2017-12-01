@@ -1,8 +1,7 @@
 <?php
-namespace mpm;
+namespace mpm\Generator;
 
 use mpm\Sphere;
-use mpm\IsLandMain as Main;
 use pocketmine\math\Vector3;
 use pocketmine\level\ChunkManager;
 use pocketmine\utils\Random;
@@ -10,7 +9,7 @@ use pocketmine\level\generator\Generator;
 use pocketmine\level\generator\biome\Biome;
 use pocketmine\level\generator\object\{ Tree, TallGrass };
 
-class skylandGenerator extends Generator {
+class SkyLandGenerator extends Generator {
 
 	/** @var ChunkManager */
 	private $level;
@@ -41,10 +40,10 @@ class skylandGenerator extends Generator {
 
 		for($x = 0; $x < 16; $x++){
 			for($z = 0; $z < 16; $z++){
-				
+
 			}
 		}
-		
+
 		if($chunkX > 0 and $chunkZ > 0){
 			$islandX = ($chunkX * 16) % 200;
 			$islandZ = ($chunkZ * 16) % 200;
@@ -59,7 +58,7 @@ class skylandGenerator extends Generator {
 					} else if($y < 12) {
 						$chunk->setBlock($x, $y, $z, 2);
 					}
-				}	
+				}
 			}
 		}
 		$this->level->setChunk($chunkX, $chunkZ, $chunk);
@@ -71,7 +70,7 @@ class skylandGenerator extends Generator {
 			$islandZ = ($chunkZ * 16) % 200;
 			if($islandX <= 100 and 100 <= $islandX + 15 and $islandZ <= 100 and 100 <= $islandZ + 15){
 				$chunk = $this->level->getChunk($chunkX, $chunkZ);
-				
+
 				$x = $chunkX * 16 + 8;
 				$z = $chunkZ * 16 + 8;
 				$y = $chunk->getHighestBlockAt(8, 8);

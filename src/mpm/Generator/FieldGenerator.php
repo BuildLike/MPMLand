@@ -1,5 +1,5 @@
 <?php
-namespace mpm;
+namespace mpm\Generator;
 
 /*
  * 이 코드는 SOLOLand(Nukkit) 에서 가져왔으며
@@ -13,7 +13,6 @@ use pocketmine\level\ChunkManager;
 use pocketmine\level\format\generic\BaseFullChunk;
 use pocketmine\math\Vector3;
 use pocketmine\utils\{Random, Config};
-use mpm\IsLandMain as Main;
 
 class FieldGenerator extends Generator{
 
@@ -41,15 +40,15 @@ class FieldGenerator extends Generator{
 	public function getChunkManager() : ChunkManager{
 		return $level;
 	}
-	
+
 	public function getSettings() : array{
 		return $this->options;
 	}
-	
+
 	public function getName() : string{
 		return "field";
 	}
-	
+
 	public function init(ChunkManager $level, Random $random){
 		$this->level = $level;
 		$this->random = $random;
@@ -58,23 +57,23 @@ class FieldGenerator extends Generator{
 	public function __construct(array $options = []){
 
 	}
-	
+
 	public function getLandWidth() : int{
 		return $this->landWidth;
 	}
-	
+
 	public function getLandDepth() : int{
 		return $this->landDepth;
 	}
-	
+
 	public function getRoadWidth() : int{
 		return $this->roadWidth;
 	}
-	
+
 	public function getRoadDepth() : int{
 		return $this->roadDepth;
 	}
-	
+
 	public function generateChunk(int $chunkX, int $chunkZ){
 		// echo "청크 X는! : ".$chunkX."/n"."청크 Z는! : ".$chunkZ;
 		$chunk = $this->level->getChunk($chunkX, $chunkZ);
@@ -95,7 +94,7 @@ class FieldGenerator extends Generator{
 		//땅은 30 * 30 길 너비는 7
 		$this->level->setChunk($chunkX, $chunkZ, $chunk);
 	}
-	
+
 	private function calcGen(int $worldX, int $worldZ){
 		if($worldX == 0 || $worldZ == 0){
 			return $this->landBorderBlock;
@@ -123,15 +122,15 @@ class FieldGenerator extends Generator{
 		}
 		return $this->roadBlock;
 	}
-	
+
 	public function populateChunk(int $chunkX, int $chunkZ){
-		
+
 	}
-	
+
 	public function getSpawn() : Vector3{
 		return new Vector3(128, $this->floorLevel, 128);
 	}
-	
+
 	public function registerLand($x1, $z1, $x2, $z2, $level){
 		$main = new Main();
 		$num = $main->c->get('flast');

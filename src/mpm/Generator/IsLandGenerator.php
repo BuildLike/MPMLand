@@ -1,8 +1,7 @@
 <?php
-namespace mpm;
+namespace mpm\Generator;
 
 use mpm\Sphere;
-use mpm\IsLandMain as Main;
 use pocketmine\math\Vector3;
 use pocketmine\level\ChunkManager;
 use pocketmine\utils\Random;
@@ -46,7 +45,7 @@ class IsLandGenerator extends Generator {
 				}
 			}
 		}
-		
+
 		if($chunkX > 0 and $chunkZ > 0){
 			$islandX = ($chunkX * 16) % 200;
 			$islandZ = ($chunkZ * 16) % 200;
@@ -61,7 +60,7 @@ class IsLandGenerator extends Generator {
 					} else if($y < 12) {
 						$chunk->setBlock($x, $y, $z, 2);
 					}
-				}	
+				}
 			}
 		}
 		$this->level->setChunk($chunkX, $chunkZ, $chunk);
@@ -73,7 +72,7 @@ class IsLandGenerator extends Generator {
 			$islandZ = ($chunkZ * 16) % 200;
 			if($islandX <= 100 and 100 <= $islandX + 15 and $islandZ <= 100 and 100 <= $islandZ + 15){
 				$chunk = $this->level->getChunk($chunkX, $chunkZ);
-				
+
 				$x = $chunkX * 16 + 8;
 				$z = $chunkZ * 16 + 8;
 				$y = $chunk->getHighestBlockAt(8, 8);

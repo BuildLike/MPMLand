@@ -17,7 +17,7 @@ use pocketmine\level\generator\Generator;
 use mpm\Generator\{FieldGenerator, IsLandGenerator, SkyLandGenerator};
 use mpm\Command\{Landcmd, LandBuycmd, Landgivecmd, LandSharecmd, LandMovecmd};
 use mpm\Lands\{Field, IsLand, Land, SkyLand};
-use mpm\Event\{LandEvent};
+use mpm\Event\{LandEvent, LandBuyEvent, LandgiveEvent, LandShareEvent, LandGetEvent};
 
 /* Author : PS88
  *
@@ -39,7 +39,7 @@ class MPMLand extends PluginBase implements Listener{
 
       public function onLoad(){
         @mkdir($this->getDataFolder());
-          $this->c = new Config($this->getDataFolder().'data.json', Config::JSON, [
+          $this->con = new Config($this->getDataFolder().'data.json', Config::JSON, [
               'Island' => [],
               'Skyland' => [],
               'Land' => [],

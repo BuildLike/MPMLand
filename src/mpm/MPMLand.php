@@ -46,7 +46,7 @@ class MPMLand extends PluginBase implements Listener{
               'Skyland' => [],
               'Land' => [],
           ]);
-          $this->c = $this->c->getAll();
+          $this->c = $this->con->getAll();
     }
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents($this, $this);

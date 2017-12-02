@@ -29,6 +29,8 @@ class MPMLand extends PluginBase implements Listener{
     public $prefix = "§l§f[§bMPMLand§f]";
     /** @var array*/
     private $c;
+
+    private $con;
   /** @var array*/
   private $generators = [
     'Island' => IsLandGenerator::class,
@@ -90,14 +92,15 @@ class MPMLand extends PluginBase implements Listener{
       		$this->getLogger()->info($name." Loaded");
         }
         foreach([
-          "Landcmd", "LandBuycmd", "Landgivecmd", "LandSharecmd", "LandMovecmd"
+          "Landcmd", "Landbuycmd", "Landgivecmd", "LandSharecmd", "LandMovecmd"
         ] as $class){
           $class = "\\mpm\\Command\\".$class;
           $this->getServer()->getCommandMap()->register($this->getDescription()->getName(), new $class($this, $this->c));
         }
   }
     public function onDisable(){
-      $this->c->save();
+      $this->con->setAll($this->c);
+      $this->con->save();
     //  $this->s->save();
     }
 
@@ -123,20 +126,19 @@ class MPMLand extends PluginBase implements Listener{
     }
 
 /** For Implemented Land Classes */
-public function setConfig($id, $type, array $data){
-  $this->c[$id] = $data;
+public function setConf($id, $type, array $data){
+  $this->c[$type] [$id] = $data;
 }
-public function getConfig($id, $type) : array{
-  return $this->c[$id];
+public function getConf($id, $type) : array{
+  return $this->c[$type] [$id];
 }
 public function getLands($name, $type) : array{
    $a = [];
-   foreach($this->c as $id => $data){
+   foreach($this->c[$type] as $id => $data){
      if($data['owner'] !== $name) continue;
      array_push($a, $id);
    }
    return $a;
 }
 
-    /**EventListning Point*/
 }

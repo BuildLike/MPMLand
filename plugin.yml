@@ -1,35 +1,7 @@
 name: "MPMLand"
 authors: ["PS88", "GoldBigDragon"]
-main: mpm\IsLandMain
+main: mpm\MPMLand
 api:
  - 3.0.0-ALPHA8
  - 3.0.0-ALPHA9
 version: "Beta2"
-
-commands:
-  땅:
-    permission: island
-  땅구매:
-    permission: buyisland
-  땅이동:
-    permission: moveisland
-  땅양도:
-    permission: changeownerisland
-  땅공유:
-    permission: shareisland
-  땅공유해제:
-    permission: unshareisland
-
-permissions:
-  island:
-    default: true
-  buyisland:
-    default: true
-  changeownerisland:
-    default: true
-  shareisland:
-    default: true
-  unshareisland:
-    default: true
-  moveisland:
-    default: true

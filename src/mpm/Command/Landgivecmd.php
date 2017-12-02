@@ -47,6 +47,8 @@ class Landcmd extends Command{
       if(count($d) >= 3){$pl->sendMessage($pr."플레이어의 섬 개수가 일정 제한을 넘었습니다."); return true;}
     }
     $class->setOwner($args[0]);
+    $ev = new LandGetEvent($pl, $this->owner->getServer()->getPlayer($args[0]),$a, $pl->getLevel()->getName());
+    $this->owner->getServer()->getPluginManager()->callEvent($ev);
     return true;
   }
 }

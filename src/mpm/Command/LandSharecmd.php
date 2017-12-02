@@ -41,6 +41,8 @@ class Landcmd extends Command{
     }
     if($class !== null or $class->getOwner() !== $pl->getName()){$pl->sendMessage($pr."당신의 땅에서만 가능한 작업입니다."); return true;}
     if(isset($class->getShares()[$args[0]])){$class->outShare($args[0]);}else{$class->addShare($args[0]);}
+    $ev = new LandShareEvent($pl, $this->owner->getServer()->getPlayer($args[0]), $a, $pl->getLevel()->getName());
+    $this->owner->getServer()->getPluginManager()->callEvent($ev);
     return true;
   }
 }

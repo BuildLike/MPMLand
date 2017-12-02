@@ -47,6 +47,8 @@ class Landcmd extends Command{
       case 'SkyLand': $class = new SkyLand($num, $pl->getName(), new Vector3(103 + $num * 200, 12, 297));
       case 'Field': $class = new Field($num, $pl->getName());
     }
+    $ev = new LandGetEvent($pl, $num, $args[0]);
+    $this->owner->getServer()->getPluginManager()->callEvent($ev);
     return true;
   }
 }

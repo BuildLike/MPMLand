@@ -7,19 +7,22 @@ class LandEvent extends Event{
   /** @var Player */
   private $player;
 
-  public function __construct(Player $player){
+  private $id;
+
+  private $type
+
+  public function __construct(Player $player,$id, $type){
     $this->player = $player;
+    $this->type = $type;
   }
   public function getPlayer() : Player{
     return $this->player;
   }
-  /**
-  * @desc This function returns {Field, Island, SkyLand}. If the Player is in another world, It returns false
-  */
-  public function getNowType(){
-    $level = $this->player->getLevel()->getName();
-    if($level == "Field", $level == "Island", $level == "SkyLand") return $level;
-    return false;
+  public function getType(){
+    return $this->type;
+  }
+  public function getId(){
+    return $this->id;
   }
 }
  ?>

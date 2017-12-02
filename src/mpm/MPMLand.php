@@ -92,13 +92,34 @@ class MPMLand extends PluginBase implements Listener{
         foreach([
           "Landcmd", "LandBuycmd", "Landgivecmd", "LandSharecmd", "LandMovecmd"
         ] as $class){
-          $class = "Command/".$class;
+          $class = "\\mpm\\Command\\".$class;
           $this->getServer()->getCommandMap()->register($this->getDescription()->getName(), new $class($this, $this->c));
         }
   }
     public function onDisable(){
       $this->c->save();
     //  $this->s->save();
+    }
+
+    /** Event Listening Point */
+    public function Listen(LandEvent $ev){
+      $pl = $ev->getPlayer();
+      $id = $ev->getId();
+      $type = $ev->getType();
+      if($ev instanceof LandGetEvent){
+        $m = $type."의 ".$id."번 영토를 가지셨습니다!";
+      }elseif($ev instanceof LandGiveEvent){
+        $ta = $ev->getTaker();
+        $m = $type."의 ".$id."번 영토를 ".$ta->getName()."님에게 주셨습니다.";
+        $ta->sendMessage($type."의 ".$id."번 영토를 ".$pl->getName()."님에게 받았습니다.");
+      }elseif($ev instanceof LandShareEvent){
+        $ta = $ev->getTaker();
+        $m = $type."의 ".$id."번 영토를 ".$ta->getName()."님에게 주셨습니다.";
+        $ta->sendMessage($type."의 ".$id."번 영토를 ".$pl->getName()."님에게 받았습니다.");
+      }elseif($ev instanceof WarpLandEvent){
+        $m = $type."의 ".$id."번 영토로 이동하셨습니다!";
+      }
+      $pl->sendMessage($m);
     }
 
 /** For Implemented Land Classes */

@@ -24,13 +24,15 @@ class Landcmd extends Command{
   public function execute(CommandSender $pl, string $commandLabel, array $args) : bool{
     if(! isset($args[0]) or ! isset($args[1])){$pl->sendMessage($pr."/땅이동 [타입] [번호]"); return true;}
     if(! isset($this->c[$args[0]])){$pl->sendMessage($pr." 타입종류 : Island, Skyland, Field"); return true;}
-    $a = $args[0];
-    switch($args[1]){
+    $a = $args[1];
+    switch($args[0]){
       case 'Island': $class = Island::getId($a);
       case 'SkyLand': $class = Skyland::getId($a);
       case 'Field': $class = Field::getId($a);
     }
     $pl->teleport($class->getPos());
+    $ev = new WarpLandEvent($pl, $args[0], $args[1], $class->getWelcomeTitle());
+    $this->owner->getServer()->getPluginManager()->callEvent($ev);
     return true;
   }
 }

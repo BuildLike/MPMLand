@@ -28,7 +28,7 @@ class MPMLand extends PluginBase implements Listener{
 
     public $prefix = "§l§f[§bMPMLand§f]";
     /** @var array*/
-    private $c;
+    private $c = [];
 
     private $con;
   /** @var array*/

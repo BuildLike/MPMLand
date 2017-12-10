@@ -5,9 +5,10 @@ use pocketmine\Player;
 
 class WarpLandEvent extends LandEvent{
 
-  private $id;
+  public static $handlerList = null;
+  protected $id;
 
-  private $title;
+  protected $title;
 
   public function __construct(Player $player, $id, $type, $title = ""){
     $this->title = $title;

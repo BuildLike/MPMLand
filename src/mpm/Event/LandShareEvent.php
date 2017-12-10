@@ -5,7 +5,8 @@ use pocketmine\Player;
 
 class LandShareEvent extends LandEvent{
 
-  private $sharer;
+  public static $handlerList = null;
+  protected $sharer;
 
   public function __construct(Player $player,Player $sharer, $id, $type){
     $this->sharer = $sharer;

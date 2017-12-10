@@ -3,7 +3,7 @@ namespace mpm\Event;
 
 use pocketmine\Player;
 
-class LandEvent extends Event{
+abstract class LandEvent extends Event{
   /** @var Player */
   private $player;
 

@@ -5,7 +5,8 @@ use pocketmine\Player;
 
 class LandGiveEvent extends LandGetEvent{
 
-  private $Giver;
+  public static $handlerList = null;
+  protected $Giver;
 
   public function __construct(Player $player,Player $giver, $id, $type){
     $this->Giver = $giver; // I typed taker to giver.. Sorry

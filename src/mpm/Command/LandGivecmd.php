@@ -1,7 +1,7 @@
 <?php
 namespace mpm\Command;
 
-class LandSharecmd extends Command{
+class LandGivecmd extends Command{
   /** @var LandAPI */
   private $api;
 
@@ -11,7 +11,7 @@ class LandSharecmd extends Command{
   public function __construct(LandAPI $api, $c){
     $this->api = $api;
     $this->c = $c;
-    parent::__construct("땅공유", $this->api->cmdhelp['LandShare'], "/땅공유 [플레이어] (플레이어) ...");
+    parent::__construct("땅양도", $this->api->cmdhelp['LandGive'], "/땅양도 [플레이어]", ['Player']);
   }
 
   public function execute(CommandSender $pl, string $commandLabel, array $i) : bool{
@@ -20,24 +20,24 @@ class LandSharecmd extends Command{
       return true;
     }
     if(! isset($i[0])){
-      $pl->sendMessage($this->api->cmdhelp['LandShare']);
+      $pl->sendMessage($this->api->cmdhelp['LandGive']);
       return true;
     }
     switch($pl->getLevel()->getName()){
       case "field":
-      $class = "FieldShare";
+      $class = "FieldGive";
       break;
       case "island":
-      $class = "IslandShare";
+      $class = "IslandGive";
       break;
       case "skyland":
-      $class = "SkylandShare";
+      $class = "SkylandGive";
       break;
       default:
-      $class = "LandShare";
+      $class = "LandGive";
       break;
     }
-    new $class($this->api->getLandByPlayer($pl)['num'], $i);
+    new $class($this->api->getLandByPlayer($pl)['num'], $pl, $this->getServer()->getPlayer($i[0]));
     return true;
   }
 }

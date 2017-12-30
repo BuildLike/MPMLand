@@ -33,23 +33,18 @@ class MPMLand extends PluginBase implements Listener{
     private $con;
   /** @var array*/
   private $generators = [
-    'Island' => IsLandGenerator::class,
+    'Island' => IslandGenerator::class,
     'Skyland' => SkylandGenerator::class,
     'Field' => FieldGenerator::class
   ];
 
 
       public function onLoad(){
-        @mkdir($this->getDataFolder());
-          $this->con = new Config($this->getDataFolder().'data.json', Config::JSON, [
-              'Island' => [],
-              'Skyland' => [],
-              'Land' => [],
-          ]);
-          $this->c = $this->con->getAll();
+        $api = new LandAPI();
+        $api->LoadConfig();
     }
     public function onEnable(){
-        $this->getServer()->getPluginManager()->registerEvents($this, $this);
+        $this->getServer()->getPluginManager()->registerEvents(new Listener(), $this);
     if(!file_exists($this->getDataFolder())){
 			mkdir($this->getDataFolder());
 		}
@@ -91,54 +86,16 @@ class MPMLand extends PluginBase implements Listener{
       		}
       		$this->getLogger()->info($name." Loaded");
         }
-        foreach([
+        /* foreach([
           "Landcmd", "Landbuycmd", "Landgivecmd", "LandSharecmd", "LandMovecmd"
         ] as $class){
           $class = "\\mpm\\Command\\".$class;
           $this->getServer()->getCommandMap()->register($this->getDescription()->getName(), new $class($this, $this->c));
-        }
+        } */
   }
     public function onDisable(){
-      $this->con->setAll($this->c);
-      $this->con->save();
-    //  $this->s->save();
+      $api = new LandAPI();
+      $api->UnLoadConfig();
     }
-
-    /** Event Listening Point */
-    public function Listen(LandEvent $ev){
-      $pl = $ev->getPlayer();
-      $id = $ev->getId();
-      $type = $ev->getType();
-      if($ev instanceof LandGetEvent){
-        $m = $type."의 ".$id."번 영토를 가지셨습니다!";
-      }elseif($ev instanceof LandGiveEvent){
-        $ta = $ev->getTaker();
-        $m = $type."의 ".$id."번 영토를 ".$ta->getName()."님에게 주셨습니다.";
-        $ta->sendMessage($type."의 ".$id."번 영토를 ".$pl->getName()."님에게 받았습니다.");
-      }elseif($ev instanceof LandShareEvent){
-        $ta = $ev->getTaker();
-        $m = $type."의 ".$id."번 영토를 ".$ta->getName()."님에게 주셨습니다.";
-        $ta->sendMessage($type."의 ".$id."번 영토를 ".$pl->getName()."님에게 받았습니다.");
-      }elseif($ev instanceof WarpLandEvent){
-        $m = $type."의 ".$id."번 영토로 이동하셨습니다!";
-      }
-      $pl->sendMessage($m);
-    }
-
-/** For Implemented Land Classes */
-public function setConf($id, $type, array $data){
-  $this->c[$type] [$id] = $data;
-}
-public function getConf($id, $type) : array{
-  return $this->c[$type] [$id];
-}
-public function getLands($name, $type) : array{
-   $a = [];
-   foreach($this->c[$type] as $id => $data){
-     if($data['owner'] !== $name) continue;
-     array_push($a, $id);
-   }
-   return $a;
-}
 
 }

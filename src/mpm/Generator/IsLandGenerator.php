@@ -9,7 +9,7 @@ use pocketmine\level\generator\Generator;
 use pocketmine\level\generator\biome\Biome;
 use pocketmine\level\generator\object\{ Tree, TallGrass };
 
-class IsLandGenerator extends Generator {
+class IslandGenerator extends Generator {
 
 	/** @var ChunkManager */
 	private $level;

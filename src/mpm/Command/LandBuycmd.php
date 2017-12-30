@@ -1,7 +1,7 @@
 <?php
 namespace mpm\Command;
 
-class LandWarpcmd extends Command{
+class LandBuycmd extends Command{
   /** @var LandAPI */
   private $api;
 
@@ -11,7 +11,7 @@ class LandWarpcmd extends Command{
   public function __construct(LandAPI $api, $c){
     $this->api = $api;
     $this->c = $c;
-    parent::__construct("땅이동", $api->cmdhelp['LandWarp'], "/땅이동 [타입] [번호]", ['타입', '번호']);
+    parent::__construct("땅구매", $api->cmdhelp['LandBuy'], "/땅구매 [타입] [번호]", ['타입', '번호']);
   }
 
   public function execute(CommandSender $pl, string $commandLabel, array $i) : bool{
@@ -22,22 +22,20 @@ class LandWarpcmd extends Command{
       }
       return true;
     }
-    if(! isset($this->c[$i[0]] [$i[1]]){
-      $pl->sendMessage(MPMLand::$prefix."해당 땅은 없거나 등록되지 않았습니다.");
-      return true;
-    }
     switch($i[0]){
       case "field":
-      new FieldWarp($i[1], $pl);
+      new FieldGive($i[1],null,$pl); //땅 타입은 이미 Registered 되어서 주기만 하면 된다.
+      $pl->sendMessage(MPMLand::$prefix."땅".$i[1]."번을 구매하셨습니다.");
       break;
       case "island":
-      new IslandWarp($i[1], $pl);
+      new IslandAdd($i[1], new Vector2(103 + $i[1] * 200, 297),$pl);
       break;
       case "skyland":
-      new SkylandWarp($i[1], $pl);
+      new SkylandAdd($i[1], new Vector2(103 + $i[1] * 200, 297),$pl);
       break;
       case "Land":
-      new LandWarp($i[1], $pl);
+      new LandGive($i[1], null, $pl); //땅 타입은 이미 Registered 되어서 주기만 하면 된다.
+      $pl->sendMessage(MPMLand::$prefix."땅".$i[1]."번을 구매하셨습니다.");
       break;
     }
     return true;

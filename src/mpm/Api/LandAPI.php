@@ -37,7 +37,6 @@ class LandAPI extends MPMLand{
 
 
   public function LoadConfig(){
-     $this->getServer()->getPluginManager()->registerEvents($this, $this);
     @mkdir($this->getDataFolder());
       $this->con = new Config($this->getDataFolder().'data.json', Config::JSON, [
           'island' => [],

@@ -39,10 +39,10 @@ class MPMLand extends PluginBase implements Listener{
 
       public function onLoad(){
         $api = new LandAPI();
-        
+
     }
     public function onEnable(){
-        $this->getServer()->getPluginManager()->registerEvents($this, $this);
+        $this->getServer()->getPluginManager()->registerEvents(new Listener(), $this);
 
         foreach ($this->generators as $name => $class) {
           Generator::addGenerator($class, $name);

@@ -44,7 +44,7 @@ class MPMLand extends PluginBase implements Listener{
         $api->LoadConfig();
     }
     public function onEnable(){
-        $this->getServer()->getPluginManager()->registerEvents($this, $this);
+        $this->getServer()->getPluginManager()->registerEvents(new Listener(), $this);
     if(!file_exists($this->getDataFolder())){
 			mkdir($this->getDataFolder());
 		}
@@ -86,12 +86,12 @@ class MPMLand extends PluginBase implements Listener{
       		}
       		$this->getLogger()->info($name." Loaded");
         }
-        foreach([
+        /* foreach([
           "Landcmd", "Landbuycmd", "Landgivecmd", "LandSharecmd", "LandMovecmd"
         ] as $class){
           $class = "\\mpm\\Command\\".$class;
           $this->getServer()->getCommandMap()->register($this->getDescription()->getName(), new $class($this, $this->c));
-        }
+        } */
   }
     public function onDisable(){
       $api = new LandAPI();

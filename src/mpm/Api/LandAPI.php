@@ -1,5 +1,7 @@
 <?php
-namespace mpm;
+namespace mpm\Api;
+
+use mpm\MPMLand;
 
 class LandAPI extends MPMLand{
   /** @var Config */
@@ -17,14 +19,14 @@ class LandAPI extends MPMLand{
   /** @var string[] */
   protected $types = [
     'island',
-    'field' => ,
+    'field',
     'skyland',
     'Land'
   ];
 
   /** @var string[] */
   protected $cmdhelp = [
-    'Land' => "땅에 대한 명령어들을 봅니다."
+    'Land' => "땅에 대한 명령어들을 봅니다.",
     'LandWarp' => "/땅이동 [타입] [번호] - [타입]의 [번호]로 이동합니다.",
     'LandBuy' => "/땅구매 [타입] [번호] - [타입]의 [번호]를 구매합니다.",
     'LandShare' => "/땅공유 [플레이어] - [플레이어]를 현재 땅에서 공유시킵니다.",
@@ -35,6 +37,7 @@ class LandAPI extends MPMLand{
 
 
   public function LoadConfig(){
+     $this->getServer()->getPluginManager()->registerEvents($this, $this);
     @mkdir($this->getDataFolder());
       $this->con = new Config($this->getDataFolder().'data.json', Config::JSON, [
           'island' => [],

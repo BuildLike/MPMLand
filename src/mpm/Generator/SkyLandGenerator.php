@@ -1,7 +1,7 @@
 <?php
 namespace mpm\Generator;
 
-use mpm\Sphere;
+use mpm\Object\Sphere;
 use pocketmine\math\Vector3;
 use pocketmine\level\ChunkManager;
 use pocketmine\utils\Random;

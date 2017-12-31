@@ -1,7 +1,7 @@
 <?php
-namespace mpm\Command;
+namespace mpm\Command\Island;
 
-class LandWarpcmd extends Command{
+class IslandWarpcmd extends Command{
   /** @var LandAPI */
   private $api;
 

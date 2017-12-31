@@ -1,5 +1,5 @@
 <?php
-namespace mpm\Command;
+namespace mpm\Command\Land;
 
 class LandGivecmd extends Command{
   /** @var LandAPI */
@@ -20,24 +20,10 @@ class LandGivecmd extends Command{
       return true;
     }
     if(! isset($i[0])){
-      $pl->sendMessage($this->api->cmdhelp['LandGive']);
+      $pl->sendMessage("/땅양도 [플레이어]");
       return true;
     }
-    switch($pl->getLevel()->getName()){
-      case "field":
-      $class = "FieldGive";
-      break;
-      case "island":
-      $class = "IslandGive";
-      break;
-      case "skyland":
-      $class = "SkylandGive";
-      break;
-      default:
-      $class = "LandGive";
-      break;
-    }
-    new $class($this->api->getLandByPlayer($pl)['num'], $pl, $this->getServer()->getPlayer($i[0]));
+    new LandGive($this->api->getLandByPlayer($pl)['num'], $pl, $this->getServer()->getPlayer($i[0]));
     return true;
   }
 }

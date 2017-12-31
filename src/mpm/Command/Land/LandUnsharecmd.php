@@ -1,7 +1,7 @@
 <?php
-namespace mpm\Command;
+namespace mpm\Command\Land;
 
-class LandUnsharecmd extends Command{
+class LandSharecmd extends Command{
   /** @var LandAPI */
   private $api;
 
@@ -11,7 +11,7 @@ class LandUnsharecmd extends Command{
   public function __construct(LandAPI $api, $c){
     $this->api = $api;
     $this->c = $c;
-    parent::__construct("땅공유", $this->api->cmdhelp['LandUnshare'], "/땅공유 [플레이어] (플레이어) ...");
+    parent::__construct("땅공유해제", "땅을 공유해제 합니다.", "/땅공유해제 [플레이어] (플레이어) ...");
   }
 
   public function execute(CommandSender $pl, string $commandLabel, array $i) : bool{
@@ -20,24 +20,10 @@ class LandUnsharecmd extends Command{
       return true;
     }
     if(! isset($i[0])){
-      $pl->sendMessage($this->api->cmdhelp['LandUnshare']);
+      $pl->sendMessage("/땅공유해제 [플레이어] (플레이어) ...");
       return true;
     }
-    switch($pl->getLevel()->getName()){
-      case "field":
-      $class = "FieldUnshare";
-      break;
-      case "island":
-      $class = "IslandUnshare";
-      break;
-      case "skyland":
-      $class = "SkylandUnshare";
-      break;
-      default:
-      $class = "LandUnshare";
-      break;
-    }
-    new $class($this->api->getLandByPlayer($pl)['num'], $i);
+    new LandShare($this->api->getLandByPlayer($pl)['num'], $i);
     return true;
   }
 }

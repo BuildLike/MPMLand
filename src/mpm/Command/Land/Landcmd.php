@@ -1,5 +1,5 @@
 <?php
-namespace mpm\Command;
+namespace mpm\Command\Land;
 
 class Landcmd extends Command{
   /** @var LandAPI */
@@ -15,10 +15,7 @@ class Landcmd extends Command{
   }
 
   public function execute(CommandSender $pl, string $commandLabel, array $i) : bool{
-    $a = $this->api->cmdhelp;
-    foreach ($a as $key => $value) {
-      $pl->sendMessage(MPMLand::$prefix.$value);
-    }
+    $pl->sendMessage($this->api->Landhelp());
     return true;
   }
 }

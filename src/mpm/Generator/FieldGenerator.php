@@ -95,6 +95,24 @@ class FieldGenerator extends Generator{
 		$this->level->setChunk($chunkX, $chunkZ, $chunk);
 	}
 
+	public function set(int $worldX, int $worldZ){
+		foreach ([
+			[$worldX - 1, $worldZ],
+			[$worldX - 1, $worldZ - 1],
+			[$worldX, $worldZ- 1]
+			] as [$x, $z]) {
+			if(! $this->Gen($x, $z)) return false;
+		}
+			$this->register($worldX, $worldZ, $worldX + 30, $worldZ + 30);
+	}
+
+	private function register($x1, $z1, $x2, $z2){
+		foreach ($variable as $key => [$fx, $fz, $lx, $lz]) {
+			if($fx == $x1, $fz == $z1, $lx == $x2, $lz == $z2) return true;
+		}
+		new FieldRegister(null, new Vector2($x1, $z1), new Vector2($x2, $z2));
+	}
+
 	private function calcGen(int $worldX, int $worldZ){
 		if($worldX == 0 || $worldZ == 0){
 			return $this->landBorderBlock;
@@ -121,6 +139,25 @@ class FieldGenerator extends Generator{
 			return $this->landBorderBlock;
 		}
 		return $this->roadBlock;
+	}
+
+	private function Gen(int $worldX, int $worldZ){
+		$gridlandX = $worldX % ($this->landWidth + $this->roadWidth);
+		$gridlandZ = $worldZ % ($this->landDepth + $this->roadDepth);
+
+		if($gridlandX >= ($this->roadWidth + 1) && $gridlandZ >= ($this->roadDepth + 1)){
+			return true;
+		}
+		if($gridlandX == 0 && $gridlandZ >= $this->roadDepth + 1){
+			return true;
+		}
+		if($gridlandZ == 0 && $gridlandX >= $this->roadWidth + 1){
+			return true;
+		}
+		if($gridlandX == 0 && $gridlandZ == 0){
+			return true;
+		}
+		return false;
 	}
 
 	public function populateChunk(int $chunkX, int $chunkZ){

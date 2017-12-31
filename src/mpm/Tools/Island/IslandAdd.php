@@ -9,7 +9,7 @@ class IslandAdd{
   public function __construct(int $num,Vector2 $pos, Player $owner = null, $options = []){
     $this->c = LandAPI::getAll();
     $name = ($owner == null)? null:$owner->getName();
-    if($this->c['island'] [$num] [$owner] !== null){$this->sendNope($owner);return true;}
+    if($this->c['field'] [$num] [$owner] !== $name){$this->sendNope($owner);return true;}
     $this->configset($num, $pos,$name, $options);
     $this->sendAdded($num, $owner);
     LandAPI::setAll($this->c);

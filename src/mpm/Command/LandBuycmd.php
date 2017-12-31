@@ -24,8 +24,7 @@ class LandBuycmd extends Command{
     }
     switch($i[0]){
       case "field":
-      new FieldGive($i[1],null,$pl); //땅 타입은 이미 Registered 되어서 주기만 하면 된다.
-      $pl->sendMessage(MPMLand::$prefix."땅".$i[1]."번을 구매하셨습니다.");
+      new FieldAdd($i[1],null,$pl);
       break;
       case "island":
       new IslandAdd($i[1], new Vector2(103 + $i[1] * 200, 297),$pl);
@@ -34,8 +33,7 @@ class LandBuycmd extends Command{
       new SkylandAdd($i[1], new Vector2(103 + $i[1] * 200, 297),$pl);
       break;
       case "Land":
-      new LandGive($i[1], null, $pl); //땅 타입은 이미 Registered 되어서 주기만 하면 된다.
-      $pl->sendMessage(MPMLand::$prefix."땅".$i[1]."번을 구매하셨습니다.");
+      new LandAdd($i[1], null, $pl);
       break;
     }
     return true;

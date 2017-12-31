@@ -15,7 +15,7 @@ use onebone\economyapi\EconomyAPI;
 use pocketmine\level\generator\Generator;
 use mpm\Api\LandAPI;
 use mpm\Generator\{FieldGenerator, IsLandGenerator, SkyLandGenerator};
-use mpm\Command\{Landcmd, LandBuycmd, Landgivecmd, LandSharecmd, LandMovecmd};
+use mpm\Command\{Landcmd, LandBuycmd, LandGivecmd, LandSharecmd, LandMovecmd};
 
 /* Author : PS88
  *
@@ -32,8 +32,8 @@ class MPMLand extends PluginBase implements Listener{
   /** @var array*/
   private $generators = [
     'island' => IsLandGenerator::class,
-    'Skyland' => SkyLandGenerator::class,
-    'Field' => FieldGenerator::class
+    'skyland' => SkyLandGenerator::class,
+    'field' => FieldGenerator::class
   ];
 
 

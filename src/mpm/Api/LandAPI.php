@@ -87,15 +87,18 @@ class LandAPI extends MPMLand{
         if($key == "Land"){
           if($pl->getLevel()->getName() !== $info['fpos'][3]) continue;
           if($pl->x >= $info['fpos'][0] || $pl->z >= $info['fpos'][2] || $pl->x <= $info['lpos'][0] || $pl->z <= $info['lpos'][2]){
+            $info['num'] = $num;
             return $info;
           }
         }elseif ($key == "field") {
           if($pl->getLevel()->getName() !== "field") continue;
           if($pl->x >= $info['fpos'][0] || $pl->z >= $info['fpos'][2] || $pl->x <= $info['lpos'][0] || $pl->z <= $info['lpos'][2]){
+            $info['num'] = $num;
             return $info;
           }else{
             if($pl->getLevel()->getName() !== $key) continue;
               if($pl->direction(new Vector3($info['pos'][0], $pl->y, $info['pos'][1])) <= 200){
+                $info['num'] = $num;
                 return $info;
               }
           }

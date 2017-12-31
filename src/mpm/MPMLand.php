@@ -15,7 +15,12 @@ use onebone\economyapi\EconomyAPI;
 use pocketmine\level\generator\Generator;
 use mpm\Api\LandAPI;
 use mpm\Generator\{FieldGenerator, IsLandGenerator, SkyLandGenerator};
-use mpm\Command\{Landcmd, LandBuycmd, LandGivecmd, LandSharecmd, LandMovecmd};
+use mpm\Command\{Landcmd, LandBuycmd, LandGivecmd, LandSharecmd, LandUnsharecmd, LandMovecmd};
+use mpm\Tools\Island\{IslandAdd, IslandGive, IslandInfo, IslandShare, IslandUnshare, IslandWarp};
+use mpm\Tools\Field\{FieldAdd, FieldGive, FieldInfo, FieldRegister, FieldShare, FieldUnshare, FieldWarp};
+use mpm\Tools\Land\{LandAdd, LandGive, LandInfo, LandRegister, LandShare, LandUnshare, LandWarp};
+use mpm\Tools\Skyland\{SkylandAdd, SkylandGive, SkylandInfo, SkylandShare, SkylandUnshare, SkylandWarp};
+use mpm\Listener;
 
 /* Author : PS88
  *
@@ -56,12 +61,12 @@ class MPMLand extends PluginBase implements Listener{
       		}
       		$this->getLogger()->info($name." Loaded");
         }
-        /* foreach([
-          "Landcmd", "Landbuycmd", "Landgivecmd", "LandSharecmd", "LandMovecmd"
+         foreach([
+          "Landcmd", "LandBuycmd", "LandGivecmd", "LandSharecmd", "LandUnsharecmd","LandWarpcmd"
         ] as $class){
           $class = "\\mpm\\Command\\".$class;
-          $this->getServer()->getCommandMap()->register($this->getDescription()->getName(), new $class($this, $this->c));
-        } */
+          $this->getServer()->getCommandMap()->register($this->getDescription()->getName(), new $class(new LandAPI(), $this->c));
+        }
   }
     public function onDisable(){
       $api = new LandAPI();

@@ -1,7 +1,7 @@
 <?php
 namespace mpm\Command;
 
-class Landcmd extends Command{
+class MPMLandcmd extends Command{
   /** @var LandAPI */
   private $api;
 
@@ -11,14 +11,11 @@ class Landcmd extends Command{
   public function __construct(LandAPI $api, $c){
     $this->api = $api;
     $this->c = $c;
-    parent::__construct("땅", $this->api->cmdhelp['Land'], "/땅");
+    parent::__construct("MPM", "MPM 플러그인 명령어", "/MPM");
   }
 
   public function execute(CommandSender $pl, string $commandLabel, array $i) : bool{
-    $a = $this->api->cmdhelp;
-    foreach ($a as $key => $value) {
-      $pl->sendMessage(MPMLand::$prefix.$value);
-    }
+    $pl->sendMessage($this->api->getallhelps());
     return true;
   }
 }

@@ -15,10 +15,7 @@ class LandBuycmd extends Command{
   }
 
   public function execute(CommandSender $pl, string $commandLabel, array $i) : bool{
-      case "Land":
       new LandAdd($i[0], $pl);
-      break;
-    }
     return true;
   }
 }

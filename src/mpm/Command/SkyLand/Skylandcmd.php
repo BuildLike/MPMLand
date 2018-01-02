@@ -1,7 +1,7 @@
 <?php
-namespace mpm\Command;
+namespace mpm\Command\Skyland;
 
-class Landcmd extends Command{
+class Skylandcmd extends Command{
   /** @var LandAPI */
   private $api;
 
@@ -11,14 +11,11 @@ class Landcmd extends Command{
   public function __construct(LandAPI $api, $c){
     $this->api = $api;
     $this->c = $c;
-    parent::__construct("땅", $this->api->cmdhelp['Land'], "/땅");
+    parent::__construct("공중섬", "공중섬 명령어입니다.", "/공중섬");
   }
 
   public function execute(CommandSender $pl, string $commandLabel, array $i) : bool{
-    $a = $this->api->cmdhelp;
-    foreach ($a as $key => $value) {
-      $pl->sendMessage(MPMLand::$prefix.$value);
-    }
+    $pl->sendMessage($this->api->skylandhelp());
     return true;
   }
 }

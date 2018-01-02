@@ -1,7 +1,8 @@
 name: "MPMLand"
-authors: ["PS88", "GoldBigDragon"]
+author: "MPMTeam"
 main: mpm\MPMLand
 api:
  - 3.0.0-ALPHA8
  - 3.0.0-ALPHA9
-version: "Beta2"
+ - 3.0.0-ALPHA10
+version: "3.0.0 - Test"
